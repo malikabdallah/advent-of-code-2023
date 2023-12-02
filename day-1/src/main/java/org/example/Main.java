@@ -113,15 +113,15 @@ public class Main {
     }
 
     private static void writeInRessources(int cpt) {
-        /*
+        // Specify the file name and content
         String fileName = "output.txt";
-        String content = "value ="+String.valueOf(cpt);
+        String content = "day 1:"+String.valueOf(cpt);
 
         // Get the path to the target directory
         Path targetDir = Paths.get("target");
 
         // Get the path to the file in the target directory
-        Path filePath = targetDir.resolve(fileName.replace("/", File.separator));
+        Path filePath = targetDir.resolve(fileName);
 
         try {
             // Create or overwrite the file in the target directory
@@ -131,8 +131,5 @@ public class Main {
         } catch (IOException e) {
             e.printStackTrace();
         }
-
-         */
-        System.out.println(cpt);
     }
 }
