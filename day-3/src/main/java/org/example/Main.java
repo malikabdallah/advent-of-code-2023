@@ -23,12 +23,26 @@ public class Main {
 
                 String []tab=map.toArray(new String[0]);
                 List<Donnee>mapDonnee=new ArrayList<>();
+                List<DonneeGears>donneeGears=new ArrayList<>();
+                for(int i=0;i<=tab.length-1;i++){
+                    String s=tab[i];
+                    for(int j=0;j<=s.length()-1;j++){
+                      if(s.charAt(j)=='*'){
+                          DonneeGears donneeGears1=new DonneeGears();
+                          donneeGears1.setColonne(j);
+                          donneeGears1.setLigne(i);
+                          donneeGears.add(donneeGears1);
+                      }
+                    }
+                }
                 int cpt=0;
                 for(int i=0;i<=tab.length-1;i++) {
                     String champs = tab[i];
                     List<Donnee>numbers =getListFromString(champs,i);
                     mapDonnee.addAll(numbers);
                 }
+
+                List<Donnee>donneesVerifie=new ArrayList<>();
 
                 for(Donnee donnee:mapDonnee){
                     for(Integer col:donnee.getColonnes()){
@@ -42,16 +56,27 @@ public class Main {
                         if(estValide){
                             System.out.println(donnee.getNumero());
                             cpt=cpt+donnee.getNumero();
+                            donneesVerifie.add(donnee);
                             break;
-
-
                         }
-
-
 
                     }
                 }
-                System.out.println(cpt);
+                int cptGears=0;
+                for(DonneeGears donneeGears1:donneeGears){
+                    List<Donnee>donneesAdjacente=new ArrayList<>();
+                    for(Donnee donnee:donneesVerifie){
+                        if(estAdjacente(donneeGears1,donnee)){
+                            donneesAdjacente.add(donnee);
+                        }
+                    }
+                    if(donneesAdjacente.size()==2){
+                        cptGears=cptGears+donneesAdjacente.get(0).getNumero()*
+                                donneesAdjacente.get(1).getNumero();
+
+                    }
+                }
+                System.out.println(cptGears);
 
             } catch (IOException e) {
                 throw new RuntimeException(e);
@@ -61,6 +86,58 @@ public class Main {
 
 
         System.out.println("Hello world!");
+    }
+
+    private static boolean estAdjacente(DonneeGears donneeGears1, Donnee donnee) {
+        boolean verifBourrin=false;
+
+        for(Integer col:donnee.getColonnes()){
+            //haut gauche
+            if(col-1==donneeGears1.getColonne() && donnee.getLigne()-1==donneeGears1.getLigne()){
+                return  true;
+            }
+
+            //haut
+            if(col==donneeGears1.getColonne() && donnee.getLigne()-1==donneeGears1.getLigne()){
+                return  true;
+            }
+
+            //haut droite
+            if(col+1==donneeGears1.getColonne() && donnee.getLigne()-1==donneeGears1.getLigne()){
+                return  true;
+            }
+
+            //gauche
+            if(col-1==donneeGears1.getColonne() && donnee.getLigne()==donneeGears1.getLigne()){
+                return  true;
+            }
+
+            //droite
+            if(col+1==donneeGears1.getColonne() && donnee.getLigne()==donneeGears1.getLigne()){
+                return  true;
+            }
+
+
+            //bas gauche
+            if(col-1==donneeGears1.getColonne() && donnee.getLigne()+1==donneeGears1.getLigne()){
+                return  true;
+            }
+
+
+            //bas
+            if(col==donneeGears1.getColonne() && donnee.getLigne()+1==donneeGears1.getLigne()){
+                return  true;
+            }
+
+            //bas droit
+            if(col+1==donneeGears1.getColonne() && donnee.getLigne()+1==donneeGears1.getLigne()){
+                return  true;
+            }
+
+        }
+        return false;
+
+
     }
 
     private static boolean verifBas(Donnee donnee, Integer col, String[] tab) {
@@ -189,5 +266,30 @@ class Donnee{
 
     public void setColonnes(List<Integer> colonnes) {
         this.colonnes = colonnes;
+    }
+}
+
+
+class DonneeGears{
+    int ligne;
+    int colonne;
+
+    public DonneeGears() {
+    }
+
+    public int getLigne() {
+        return ligne;
+    }
+
+    public void setLigne(int ligne) {
+        this.ligne = ligne;
+    }
+
+    public int getColonne() {
+        return colonne;
+    }
+
+    public void setColonne(int colonne) {
+        this.colonne = colonne;
     }
 }
