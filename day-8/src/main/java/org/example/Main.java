@@ -162,10 +162,70 @@ public class Main {
                         cursors.add(val);
                     }
                 }
+
                 boolean trouve=false;
                 cpt=0;
-                int index;
+                int index=0;
                 int compteur=1;
+                List<String>cycles=new ArrayList<>();
+                String node="";
+                List<Integer>potentielle=new ArrayList<>();
+                while(trouve==false){
+                    System.out.println("boucle");
+                    if(cpt==0) {
+                        cycles.add(cursors.get(0));
+                        Character car=ordre.charAt(index);
+                        node=car=='L'?map.get(cursors.get(0))[0]:map.get(cursors.get(0))[1];
+                        if(node.endsWith("Z")){
+                            potentielle.add(index);
+                        }
+                        index++;
+                        cpt++;
+
+                    }else{
+                        if(index>=ordre.length()){
+                            index=0;
+                        }
+                        if(cycles.contains(node)){
+                            trouve=true;
+                            cpt++;
+                        }else{
+                            cpt++;
+                            cycles.add(node);
+                            Character car=ordre.charAt(index);
+                            node=car=='L'?map.get(node)[0]:map.get(node)[1];
+                            if(node.endsWith("Z")){
+                                potentielle.add(index);
+                            }
+                            index++;
+                        }
+                    }
+
+                }
+                trouve=false;
+                int multiple=cycles.size();
+                 index=0;
+
+
+
+
+                System.out.println("fin traitement");
+                System.out.println("resultat "+index);
+
+               // methode1(cpt,ordre,map);
+
+            }catch(Exception e){
+                e.printStackTrace();
+            }
+        }
+    }
+
+
+    public static void solutionIntermediaire(){
+        //sympa la force
+
+        /*
+
                 while(!trouve){
 
                     cpt = cpt == ordre.length() ? 0 : cpt;
@@ -193,7 +253,9 @@ public class Main {
                         cursors = cursorsBis;
                     }
 
-/*
+
+
+                        //non concurent
                         cpt=cpt==ordre.length()?0:cpt;
                         index=ordre.charAt(cpt)=='L'?0:1;
 
@@ -228,17 +290,11 @@ public class Main {
                             trouve=true;
                         }
 
- */
-
                 }
-                System.out.println("fin traitement");
-                System.out.println("resultat "+compteur);
-               // methode1(cpt,ordre,map);
 
-            }catch(Exception e){
 
-            }
-        }
+
+         */
     }
 
 }
